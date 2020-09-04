@@ -153,6 +153,36 @@ function happy_christmas_portfolio_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'happy_christmas_portfolio_scripts' );
 
+
+// `wp_body_open()` was introduced in WP 5.2.0, so we define the
+// function here as a shim for older versions
+if ( ! function_exists( 'wp_body_open' ) ) {
+
+    function wp_body_open() {
+
+        // do_action( 'wp_body_open', 'Skip to page content', 'happy-christmas-portfolio' );
+        do_action( 'wp_body_open' );
+
+    }
+
+}
+
+/**
+ * Attach a function to the `wp_body_open` action hook.
+ * For WP versions older than 5.2.0, `wp_body_open` above will simply invoke this
+ * function with `do_action` which invokes all functions attached to an action hook.
+ */
+function happy_christmas_portfolio_skip_link( ) {
+    
+    // echo '<a href="#primary">' . __( $text, $domain ) . '</a>';
+    echo '<a href="#primary">' . __( 'Skip to page content', 'happy-christmas-portfolio' ) . '</a>';
+
+}
+
+// add_action( 'wp_body_open', 'happy_christmas_portfolio_skip_link', 10, 2 );
+add_action( 'wp_body_open', 'happy_christmas_portfolio_skip_link' );
+
+
 /**
  * Implement the Custom Header feature.
  */
